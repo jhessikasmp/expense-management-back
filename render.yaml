@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: gestao-financeira-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mongodb
+          property: connectionString
+      - key: ALPHA_VANTAGE_API_KEY
+        sync: false
