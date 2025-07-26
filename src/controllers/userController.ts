@@ -4,10 +4,18 @@ import User from "../models/User";
 // Criar novo usuário
 export async function createUser(req: Request, res: Response) {
   try {
+    console.log('Dados recebidos:', req.body);
     const user = await User.create(req.body);
     res.status(201).json(user);
-  } catch (err) {
-    res.status(400).json({ error: "Erro ao criar usuário", details: err });
+  } catch (err: any) {
+    console.error('Erro ao criar usuário:', err);
+    
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyPattern || {})[0] || 'campo';
+      res.status(400).json({ error: `Já existe um usuário com este ${field}` });
+    } else {
+      res.status(400).json({ error: err.message || "Erro ao criar usuário" });
+    }
   }
 }
 
