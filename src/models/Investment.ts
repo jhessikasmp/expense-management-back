@@ -6,6 +6,7 @@ export interface InvestmentDocument extends Document {
   quantity: number;
   unitPrice: number;
   currency: string;
+  description?: string;
   createdAt: Date;
 }
 
@@ -15,6 +16,7 @@ const InvestmentSchema = new Schema<InvestmentDocument>({
   quantity: { type: Number, required: true },
   unitPrice: { type: Number, required: true },
   currency: { type: String, default: "EUR" },
+  description: { type: String, required: false },
   createdAt: { type: Date, default: Date.now }
 });
 

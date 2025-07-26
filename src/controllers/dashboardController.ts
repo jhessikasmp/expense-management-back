@@ -21,17 +21,17 @@ export const getDashboardData = async (req: Request, res: Response) => {
     const investments = await Investment.find();
     const travelFunds = await TravelFund.find();
 
-    const totalSalaries = users.reduce((sum, user) => sum + (user.salary || 0), 0);
+    // Salários agora são gerenciados via modelo Salary separado
     const totalExpenses = monthlyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
     const totalInvestments = investments.reduce((sum, inv) => sum + (inv.quantity * inv.unitPrice), 0);
     const totalTravelFunds = travelFunds.reduce((sum, fund) => sum + fund.total, 0);
 
-    const remainingBalance = totalSalaries - totalExpenses - totalInvestments - totalTravelFunds;
+    const remainingBalance = -totalExpenses - totalInvestments - totalTravelFunds;
 
     res.json({
       month: currentMonth,
       year: currentYear,
-      totalSalaries,
+      // totalSalaries removido - usar endpoint /salaries
       totalExpenses,
       totalInvestments,
       totalTravelFunds,
