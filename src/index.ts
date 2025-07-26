@@ -6,6 +6,7 @@ import travelFundRoutes from "./routes/travelFundRoutes";
 import investmentRoutes from "./routes/investmentRoutes";
 import userRoutes from "./routes/userRoutes";
 import expenseRoutes from "./routes/expenseRoutes";
+import salaryRoutes from "./routes/salaryRoutes";
 import dashboardRoutes from "./routes/dashboardRoutes";
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 
@@ -19,6 +20,7 @@ app.use("/api/travel-funds", travelFundRoutes);
 app.use("/api/investments", investmentRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/salaries", salaryRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 
