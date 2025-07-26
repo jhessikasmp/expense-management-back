@@ -21,7 +21,7 @@ export const getDashboardData = async (req: Request, res: Response) => {
     const investments = await Investment.find();
     const travelFunds = await TravelFund.find();
 
-    const totalSalaries = users.reduce((sum, user) => sum + user.salary, 0);
+    const totalSalaries = users.reduce((sum, user) => sum + (user.salary || 0), 0);
     const totalExpenses = monthlyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
     const totalInvestments = investments.reduce((sum, inv) => sum + (inv.quantity * inv.unitPrice), 0);
     const totalTravelFunds = travelFunds.reduce((sum, fund) => sum + fund.total, 0);
