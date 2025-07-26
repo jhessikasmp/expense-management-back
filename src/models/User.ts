@@ -12,5 +12,13 @@ const UserSchema = new Schema<UserDocument>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default model<UserDocument>("User", UserSchema);
+// Remover índice único do email que pode ter ficado do schema anterior
+const UserModel = model<UserDocument>("User", UserSchema);
+
+// Tentar remover o índice do email se existir
+UserModel.collection.dropIndex('email_1').catch(() => {
+  // Ignora erro se o índice não existir
+});
+
+export default UserModel;
 
