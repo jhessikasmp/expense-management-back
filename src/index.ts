@@ -8,6 +8,7 @@ import userRoutes from "./routes/userRoutes";
 import expenseRoutes from "./routes/expenseRoutes";
 import salaryRoutes from "./routes/salaryRoutes";
 import dashboardRoutes from "./routes/dashboardRoutes";
+import fundRoutes from "./routes/fundRoutes";
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/salaries", salaryRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/funds", fundRoutes);
 
 
 app.use(notFoundHandler);
