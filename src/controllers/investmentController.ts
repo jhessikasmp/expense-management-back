@@ -12,7 +12,8 @@ export async function createInvestment(req: Request, res: Response) {
 
 export async function listInvestments(req: Request, res: Response) {
   try {
-    const invs = await Investment.find({ userId: req.query.userId }).sort({ createdAt: -1 });
+    const filter = req.query.userId ? { userId: req.query.userId } : {};
+    const invs = await Investment.find(filter).sort({ createdAt: -1 });
     res.json(invs);
   } catch (err) {
     res.status(500).json({ error: "Erro ao buscar investimentos" });
