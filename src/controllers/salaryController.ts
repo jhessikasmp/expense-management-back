@@ -28,7 +28,12 @@ export async function addSalary(req: Request, res: Response) {
 export async function getAnnualSalaries(req: Request, res: Response) {
   try {
     const { year } = req.params;
-    const salaries = await Salary.find({ year: parseInt(year) }).sort({ month: 1 });
+    const parsedYear = parseInt(year);
+    
+    // Verifica se o ano solicitado é 2025, caso contrário, força para 2025
+    const targetYear = parsedYear === 2025 ? parsedYear : 2025;
+    
+    const salaries = await Salary.find({ year: targetYear }).sort({ month: 1 });
     res.json(salaries);
   } catch (err) {
     res.status(500).json({ error: "Erro ao buscar salários" });

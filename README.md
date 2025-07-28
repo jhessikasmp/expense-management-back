@@ -13,7 +13,7 @@ O projeto está dividido em duas partes principais:
 
 - Dashboard com visão geral do mês atual
 - Gerenciamento de despesas por categoria
-- Acompanhamento de investimentos com cotações em tempo real (via Alpha Vantage API)
+- Acompanhamento de investimentos com preços simulados
 - Fundos de viagem compartilhados
 - Suporte a múltiplas moedas (EUR, USD, GBP, BRL)
 - Modo escuro/claro
@@ -24,7 +24,6 @@ O projeto está dividido em duas partes principais:
 - Node.js 16+
 - MongoDB
 - npm ou yarn
-- Chave de API Alpha Vantage (para cotações de investimentos)
 
 ## Configuração e Execução
 
@@ -66,7 +65,6 @@ O projeto está dividido em duas partes principais:
    - Configure as variáveis:
      ```
      NEXT_PUBLIC_API_URL=http://localhost:4000/api
-     NEXT_PUBLIC_ALPHA_VANTAGE_API_KEY=sua_chave_aqui
      ```
 
 4. Execute o servidor de desenvolvimento:
@@ -81,8 +79,7 @@ O projeto está dividido em duas partes principais:
 - Cadastro e gerenciamento de usuários com salários
 - Registro e visualização de despesas com categorias
 - Visualização de gráficos de despesas por categoria e período
-- Gerenciamento de investimentos com cotações em tempo real
-- Cálculo de lucro/prejuízo em investimentos
+- Gerenciamento de investimentos com preços simulados
 - Gerenciamento de fundos de viagem compartilhados
 - Dashboard com visão geral financeira
 - Suporte a múltiplas moedas (EUR, USD, GBP, BRL)

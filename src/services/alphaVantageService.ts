@@ -1,77 +1,55 @@
-import axios from 'axios';
+// Serviço de preços de ativos fictício que não depende da API Alpha Vantage
+// API foi removida devido a problemas de estabilidade
 
-const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY || 'demo';
-const BASE_URL = 'https://www.alphavantage.co/query';
+// Mock de preços para alguns ativos comuns
+const mockPrices: Record<string, number> = {
+  // Ações
+  'AAPL': 185.92,
+  'MSFT': 415.56,
+  'GOOGL': 175.33,
+  'AMZN': 178.15,
+  'META': 480.20,
+  'TSLA': 230.65,
+  'NVDA': 108.92,
+  // Criptomoedas
+  'BTC': 66124.50,
+  'ETH': 3287.92,
+  'XRP': 0.52,
+  'BNB': 573.25,
+  'ADA': 0.47,
+  'SOL': 147.56,
+  'DOGE': 0.12,
+  // Euros para outras moedas
+  'USD': 1.08,
+  'GBP': 0.85,
+  'BRL': 6.07
+};
 
-interface ApiCallLog {
-  symbol: string;
-  date: string;
-  calls: number;
-}
-
-const dailyCalls: Map<string, ApiCallLog> = new Map();
+// Função para gerar um preço aleatório próximo ao preço base (simulando flutuações)
+const generateRandomPrice = (basePrice: number): number => {
+  // Variação aleatória de -5% a +5%
+  const variation = (Math.random() * 0.10) - 0.05;
+  return basePrice * (1 + variation);
+};
 
 export const getAssetPrice = async (symbol: string): Promise<number> => {
-  const today = new Date().toDateString();
-  const key = `${symbol}_${today}`;
+  // Verificar se temos um preço mock para o símbolo
+  const basePrice = mockPrices[symbol] || 100; // Preço padrão se não encontrado
   
-  const log = dailyCalls.get(key) || { symbol, date: today, calls: 0 };
+  // Gera um preço com pequena variação aleatória
+  const price = generateRandomPrice(basePrice);
   
-  if (log.calls >= 3) {
-    throw new Error(`Limite de 3 chamadas diárias atingido para ${symbol}`);
-  }
-
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        function: 'GLOBAL_QUOTE',
-        symbol: symbol,
-        apikey: ALPHA_VANTAGE_API_KEY
-      }
-    });
-
-    const quote = response.data['Global Quote'];
-    if (!quote) throw new Error('Dados não encontrados');
-
-    log.calls++;
-    dailyCalls.set(key, log);
-
-    return parseFloat(quote['05. price']);
-  } catch (error) {
-    console.error(`Erro ao buscar cotação para ${symbol}:`, error);
-    return 0;
-  }
+  console.log(`[Mock Service] Preço simulado para ${symbol}: ${price.toFixed(2)}`);
+  return price;
 };
 
 export const getCryptoPrice = async (symbol: string): Promise<number> => {
-  const today = new Date().toDateString();
-  const key = `${symbol}_${today}`;
+  // Verificar se temos um preço mock para a criptomoeda
+  const basePrice = mockPrices[symbol] || 1000; // Preço padrão se não encontrado
   
-  const log = dailyCalls.get(key) || { symbol, date: today, calls: 0 };
+  // Gera um preço com pequena variação aleatória
+  const price = generateRandomPrice(basePrice);
   
-  if (log.calls >= 3) {
-    throw new Error(`Limite de 3 chamadas diárias atingido para ${symbol}`);
-  }
-
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        function: 'CURRENCY_EXCHANGE_RATE',
-        from_currency: symbol,
-        to_currency: 'EUR',
-        apikey: ALPHA_VANTAGE_API_KEY
-      }
-    });
-
-    const rate = response.data['Realtime Currency Exchange Rate'];
-    if (!rate) throw new Error('Dados não encontrados');
-
-    log.calls++;
-    dailyCalls.set(key, log);
-
-    return parseFloat(rate['5. Exchange Rate']);
-  } catch (error) {
-    console.error(`Erro ao buscar cotação crypto para ${symbol}:`, error);
-    return 0;
-  }
+  console.log(`[Mock Service] Preço simulado para crypto ${symbol}: ${price.toFixed(2)}`);
+  return price;
 };
